@@ -11,4 +11,4 @@ storage
 .env
 .env.dev
 
-*.log"
+*.log
