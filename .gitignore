@@ -1,0 +1,14 @@
+node_modules
+**/dist
+results
+.nyc_output
+*.tsbuildinfo
+dummy
+
+/generated/prisma
+
+storage
+.env
+.env.dev
+
+*.log"
