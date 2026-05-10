@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Deployment {
+  id             String    @id @default(uuid())  
+  githubUrl      String
+  ref            String    @default("")
+  status         DeploymentStatus @default(PENDING)
+  currentStage   String?
+  errorMessage   String?
+  urls           Json?
+  config         Json
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  completedAt    DateTime?
+  
+  user           User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId         String?
+  
+  events         DeploymentEvent[]
+  logs           DeploymentLog[]
+  
+  @@index([status])
+  @@index([createdAt])
+  @@index([userId])
+}
+
+model DeploymentEvent {
+  id           String   @id @default(uuid())
+  deploymentId String
+  deployment   Deployment @relation(fields: [deploymentId], references: [id], onDelete: Cascade)
+  
+  type         String   // 'status', 'log', 'stage_change', 'error', 'file_change', 'deployment_ready'
+  stage        String?  
+  status       String?  // 'completed', 'in-progress', 'failed', 'pending'
+  message      String
+  details      String?  // Additional details as JSON string
+  metadata     Json?    // Flexible metadata (file changes, durations, etc.)
+  timestamp    DateTime @default(now())
+  
+  @@index([deploymentId])
+  @@index([timestamp])
+  @@index([deploymentId, timestamp])
+}
+
+model DeploymentLog {
+  id           String   @id @default(uuid())
+  deploymentId String
+  deployment   Deployment @relation(fields: [deploymentId], references: [id], onDelete: Cascade)
+  
+  level        String   // 'INFO', 'WARN', 'ERROR', 'DEBUG'
+  message      String
+  stream       String   @default("stdout") // 'stdout' or 'stderr'
+  timestamp    DateTime @default(now())
+  
+  @@index([deploymentId])
+  @@index([deploymentId, timestamp])
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  name          String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  
+  deployments   Deployment[]
+}
+
+enum DeploymentStatus {
+  PENDING
+  PROCESSING
+  SUCCESS
+  FAILED
+  CANCELLED
+  COMPLETED
+}

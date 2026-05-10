@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "exclude": ["dist", "node_modules", "dummy"],
+  "compilerOptions": {
+    "types": ["node"],
+    "module": "NodeNext",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "rootDir": ".",
+    "outDir": "./dist",
+    "incremental": true,
+    "noEmit": false
+  }
+}

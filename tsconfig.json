@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.build.json",
+
+  "compilerOptions": {
+    "paths": {
+      "@githubdemo/libraries/*": ["./packages/libraries/src/*"]
+    },
+    "noEmit": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "name": "backend",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "pnpm run clean",
+    "build": "nest build",
+    "start:prod": "node dist/src/main",
+    "dev": "dotenv -e ../../.env.dev -- nest start --watch"
+  },
+  "dependencies": {
+    "@githubdemo/libraries": "workspace:*"
+
+  }
+}

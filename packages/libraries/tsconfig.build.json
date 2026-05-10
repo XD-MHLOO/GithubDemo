@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.build.json",
+
+  "compilerOptions": {
+    "module": "NodeNext",
+    "types": ["node"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "outDir": "./dist"
+  },
+  
+
+  "include": [
+    "src/**/*"
+  ]
+}
