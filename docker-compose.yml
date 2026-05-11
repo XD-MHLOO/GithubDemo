@@ -101,6 +101,8 @@ services:
         condition: service_healthy
       dind:
         condition: service_healthy
+      temporal-create-namespace:
+        condition: service_completed_successfully
     networks:
       - app-network
       - temporal-network
