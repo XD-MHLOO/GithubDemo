@@ -87,7 +87,8 @@ export class NginxService {
                 blocks.push(`
     server {
         listen 80;
-        server_name ${deploymentId}-${service}-${port}.${process.env.DOMAIN}ensureNginxRunning;
+        server_name ${deploymentId}-${service}-${port}.${process.env.DOMAIN};
+        
 
         location / {
             resolver 127.0.0.11 valid=30s;
